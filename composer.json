@@ -1,5 +1,22 @@
 {
+  "name": "bride-php/bride-php",
+  "description": "PHP ORM",
+  "type": "library",
   "require": {
+      "php": ">=7.4",
+      "sergeytsalkov/meekrodb": "*"
+  },
+  "require-dev": {
     "sergeytsalkov/meekrodb": "*"
-  }
+  },
+  "license": "MIT",
+  "autoload": {
+    "psr-4": {"Test\\": "src/"}
+  },
+  "authors": [
+      {
+          "name": "Patrik Holes"
+      }
+  ],
+  "minimum-stability": "dev"
 }

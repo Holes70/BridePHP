@@ -1,6 +1,8 @@
 <?php
 
-class BridePHP {
+namespace Test;
+
+class BridePhp {
 
 	public string $tablePrefix;
 
@@ -11,10 +13,10 @@ class BridePHP {
 		string $userName,
 		string $password
 	) {
-		DB::$user = $userName;
-		DB::$password = $password;
-		DB::$dbName = $dbName;
-		DB::$encoding = 'utf8mb4_general_ci'; 
+		\DB::$user = $userName;
+		\DB::$password = $password;
+		\DB::$dbName = $dbName;
+		\DB::$encoding = 'utf8mb4_general_ci'; 
 	}
 
 	public function initModel(string $modelName) {
