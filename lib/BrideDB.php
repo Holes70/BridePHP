@@ -27,7 +27,7 @@ class BrideDB
 		$this->userName= $userName;
 		$this->password = $password;
 
-		$this->mysqliCon = new mysqli($this->dbName, $this->userName, $this->password);
+		$this->mysqliCon = new mysqli($this->host, $this->userName, $this->password, $this->dbName);
 
 		if ($this->mysqliCon->connect_error) {
 			throw new Exception('BrideDB connect error: ' . $this->mysqliCon->connect_error);

@@ -1,14 +1,34 @@
 <?php
 
-class BridePHP extends Lib\BrideModel {
+class BridePHP {
 
-  public $dbName = '';
-	public $userName = '';
-	public $password = '';
+	public string $tablePrefix;
 
-  public $modelName = '';
+	public array $initModelsNames = [];
 
-  public function install() {
-    
-  }
+	public function __construct(
+		string $dbName,
+		string $userName,
+		string $password
+	) {
+		DB::$user = $userName;
+		DB::$password = $password;
+		DB::$dbName = $dbName;
+		DB::$encoding = 'utf8mb4_general_ci'; 
+	}
+
+	public function initModel(string $modelName) {
+		$this->initModelsNames[] = $modelName;
+
+		return new \Lib\BrideModel(
+			$modelName,
+			[
+				'tablePrefix' => $this->tablePrefix
+			]
+		);
+	}
+
+	public function tablePrefix(string $tablePrefix) {
+		$this->tablePrefix = $tablePrefix;
+	}
 }
