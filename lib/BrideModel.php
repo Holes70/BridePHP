@@ -54,4 +54,42 @@ class BrideModel {
 
 		return $this;
 	}
+
+	public function null(bool $null = true) {
+		$this->tableColumns[key(array_slice($this->tableColumns, -1))]['null'] = $null === true 
+			? "NULL"
+			: "NOT NULL"
+		;
+
+		return $this;
+	}
+
+	public function initTable() {
+		\DB::query("DROP TABLE IF EXISTS `{$this->tableName}`");
+
+		$query = "CREATE TABLE `{$this->tableName}` (id int AUTO_INCREMENT PRIMARY KEY";
+
+		foreach ($this->tableColumns as $tableColumnName => $tableColumnParam) {
+			$size = isset($tableColumnParam['size']) 
+				? "({$tableColumnParam['size']})"
+				: ""
+			;
+			
+			$defaultValue = isset($tableColumnParam['default']) 
+				? "DEFAULT '{$tableColumnParam['default']}'"
+				: ""
+			;
+
+			$null = isset($tableColumnParam['null']) 
+				? "{$tableColumnParam['null']}"
+				: ""
+			;
+
+			$query .= ",{$tableColumnName} {$tableColumnParam['type']}{$size} {$defaultValue} {$null}"; 
+		}
+
+		$query .= ");";
+
+		return \DB::query($query);
+	}
 }
