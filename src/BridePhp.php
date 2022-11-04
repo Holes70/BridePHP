@@ -22,7 +22,7 @@ class BridePhp {
 	public function initModel(string $modelName) {
 		$this->initModelsNames[] = $modelName;
 
-		return new \Lib\BrideModel(
+		return new \BridePhp\Lib\BrideModel(
 			$modelName,
 			[
 				'tablePrefix' => $this->tablePrefix

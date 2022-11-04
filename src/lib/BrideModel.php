@@ -1,6 +1,6 @@
 <?php
 
-namespace Lib;
+namespace BridePhp\Lib;
 
 class BrideModel {
 
