@@ -1,8 +1,8 @@
 <?php
 
-namespace BridePhp\Lib;
+namespace Bride\Lib;
 
-class BrideModel {
+class Model {
 
 	public string $modelName = '';
 	public array $options;
@@ -36,6 +36,14 @@ class BrideModel {
    */
   public function getById(int $id) : array {
     return \DB::queryFirstRow("SELECT * FROM {$this->tableName} WHERE id = %d", $id);
+  }
+
+	/**
+   * @param int $id
+   * @return array data
+   */
+  public function getByCustom(string $colName, $value) : array {
+    return \DB::queryFirstRow("SELECT * FROM {$this->tableName} WHERE {$colName} = %s", $value);
   }
 
 	/**

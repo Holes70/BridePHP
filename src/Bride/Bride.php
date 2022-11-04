@@ -1,8 +1,8 @@
 <?php
 
-namespace Test;
+namespace Bride;
 
-class BridePhp {
+class Bride {
 
 	public string $tablePrefix;
 
@@ -22,7 +22,7 @@ class BridePhp {
 	public function initModel(string $modelName) {
 		$this->initModelsNames[] = $modelName;
 
-		return new \BridePhp\Lib\BrideModel(
+		return new \Bride\Lib\Model(
 			$modelName,
 			[
 				'tablePrefix' => $this->tablePrefix
