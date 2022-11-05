@@ -35,7 +35,7 @@ class Model {
    * @return array data
    */
   public function getById(int $id) : array {
-    return \DB::queryFirstRow("SELECT * FROM {$this->tableName} WHERE id = %d", $id);
+    return (array)\DB::queryFirstRow("SELECT * FROM {$this->tableName} WHERE id = %d", $id);
   }
 
 	/**
@@ -43,7 +43,7 @@ class Model {
    * @return array data
    */
   public function getByCustom(string $colName, $value) : array {
-    return \DB::queryFirstRow("SELECT * FROM {$this->tableName} WHERE {$colName} = %s", $value);
+    return (array)\DB::queryFirstRow("SELECT * FROM {$this->tableName} WHERE {$colName} = %s", $value);
   }
 
 	/**
