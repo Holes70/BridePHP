@@ -70,6 +70,14 @@ class Model {
     return \DB::insertId();
   }
 
+	/**
+   * @param int $id
+   * @return bool
+   */
+  public function delete(int $id): bool {
+    return \DB::delete($this->tableName, 'id = %d', $id);
+  }
+
   /**
    * @param array $data
    * @param int $id
