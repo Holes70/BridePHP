@@ -27,7 +27,7 @@ class Model {
 		$bindParams = func_get_args();
 		unset($bindParams[0]);
 
-		return \DB::query($query, $bindParams);
+		return \DB::query($query, ...$bindParams);
 	}
 
 	/**
@@ -151,6 +151,13 @@ class Model {
 
 		$query .= ");";
 
-		return \DB::query($query);
+		if (\DB::query($query) === false) exit('Oops some error occurred');
+		else {
+			echo '<span style=\'color:green\'>Successfully installed table: <b>' . $this->tableName . '</b></span></br>';
+			foreach ($this->tableColumns as $tableColumnName => $tableColumnParam) {
+				echo '<small>' . $tableColumnName . '</small></br>';
+			}
+			echo '</br>';
+		}
 	}
 }
