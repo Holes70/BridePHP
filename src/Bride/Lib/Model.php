@@ -30,12 +30,30 @@ class Model {
 		return \DB::query($query, ...$bindParams);
 	}
 
+	public function queryFirstRow(string $query) {
+		$query = str_replace('{model}', $this->tableName, $query);
+
+		$bindParams = func_get_args();
+		unset($bindParams[0]);
+
+		return (array)\DB::queryFirstRow($query, ...$bindParams);
+	}
+
+
 	/**
    * @param int $id
    * @return array data
    */
   public function getById(int $id) : array {
     return (array)\DB::queryFirstRow("SELECT * FROM {$this->tableName} WHERE id = %d", $id);
+  }
+
+	/**
+   * @param int $id
+   * @return array data
+   */
+  public function getByCustomLast(string $colName, $value) : array {
+    return (array)\DB::queryFirstRow("SELECT * FROM {$this->tableName} WHERE {$colName} = %s ORDER BY id DESC", $value);
   }
 
 	/**
