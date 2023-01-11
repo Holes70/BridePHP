@@ -16,7 +16,7 @@ class Bride {
 		\DB::$user = $userName;
 		\DB::$password = $password;
 		\DB::$dbName = $dbName;
-		\DB::$encoding = 'utf8mb4_slovak_ci'; 
+		//\DB::$encoding = 'utf8mb4_slovak_ci'; 
 	}
 
 	public function initModel(string $modelName) {
