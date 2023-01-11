@@ -8,29 +8,29 @@ use Exception;
 class BrideDB
 {
 
-	private $dbName = '';
-	private $userName = '';
-	private $password = '';
-	private $host = 'localhost';
-	private $port = 3306;
-	private $socket = null;
-	private $encoding = 'latin1';
+  private $dbName = '';
+  private $userName = '';
+  private $password = '';
+  private $host = 'localhost';
+  private $port = 3306;
+  private $socket = null;
+  private $encoding = 'latin1';
 
-	private $mysqliCon = null;
+  private $mysqliCon = null;
 
-	protected function setup(
-		string $dbName, 
-		string $userName, 
-		string $password
-	) {
-		$this->dbName = $dbName;
-		$this->userName= $userName;
-		$this->password = $password;
+  protected function setup(
+    string $dbName, 
+    string $userName, 
+    string $password
+  ) {
+    $this->dbName = $dbName;
+    $this->userName= $userName;
+    $this->password = $password;
 
-		$this->mysqliCon = new mysqli($this->host, $this->userName, $this->password, $this->dbName);
+    $this->mysqliCon = new mysqli($this->host, $this->userName, $this->password, $this->dbName);
 
-		if ($this->mysqliCon->connect_error) {
-			throw new Exception('BrideDB connect error: ' . $this->mysqliCon->connect_error);
-		}
-	}
+    if ($this->mysqliCon->connect_error) {
+      throw new Exception('BrideDB connect error: ' . $this->mysqliCon->connect_error);
+    }
+  }
 }
