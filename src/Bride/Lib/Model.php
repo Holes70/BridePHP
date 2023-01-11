@@ -4,43 +4,43 @@ namespace Bride\Lib;
 
 class Model {
 
-	public string $modelName = '';
-	public array $options;
+  public string $modelName = '';
+  public array $options;
 
-	public string $tableName = '';
-	public array $tableColumns;
+  public string $tableName = '';
+  public array $tableColumns;
 
-	public function __construct(
-		string $modelName,
-		array $options
-	) {
-		$this->modelName = $modelName;
+  public function __construct(
+    string $modelName,
+    array $options
+  ) {
+    $this->modelName = $modelName;
 
-		if (isset($options['tablePrefix'])) {
-			$this->tableName = $options['tablePrefix'] . '_' . $this->modelName;
-		}
-	}
+    if (isset($options['tablePrefix'])) {
+      $this->tableName = $options['tablePrefix'] . '_' . $this->modelName;
+    }
+  }
 
-	public function query(string $query) {
-		$query = str_replace('{model}', $this->tableName, $query);
+  public function query(string $query) {
+    $query = str_replace('{model}', $this->tableName, $query);
 
-		$bindParams = func_get_args();
-		unset($bindParams[0]);
+    $bindParams = func_get_args();
+    unset($bindParams[0]);
 
-		return \DB::query($query, ...$bindParams);
-	}
+    return \DB::query($query, ...$bindParams);
+  }
 
-	public function queryFirstRow(string $query) {
-		$query = str_replace('{model}', $this->tableName, $query);
+  public function queryFirstRow(string $query) {
+    $query = str_replace('{model}', $this->tableName, $query);
 
-		$bindParams = func_get_args();
-		unset($bindParams[0]);
+    $bindParams = func_get_args();
+    unset($bindParams[0]);
 
-		return (array)\DB::queryFirstRow($query, ...$bindParams);
-	}
+    return (array)\DB::queryFirstRow($query, ...$bindParams);
+  }
 
 
-	/**
+  /**
    * @param int $id
    * @return array data
    */
@@ -48,7 +48,7 @@ class Model {
     return (array)\DB::queryFirstRow("SELECT * FROM {$this->tableName} WHERE id = %d", $id);
   }
 
-	/**
+  /**
    * @param int $id
    * @return array data
    */
@@ -56,7 +56,7 @@ class Model {
     return (array)\DB::queryFirstRow("SELECT * FROM {$this->tableName} WHERE {$colName} = %s ORDER BY id DESC", $value);
   }
 
-	/**
+  /**
    * @param int $id
    * @return array data
    */
@@ -64,7 +64,7 @@ class Model {
     return (array)\DB::queryFirstRow("SELECT * FROM {$this->tableName} WHERE {$colName} = %s", $value);
   }
 
-	/**
+  /**
    * @return array data
    */
   public function getAll() : array {
@@ -88,7 +88,7 @@ class Model {
     return \DB::insertId();
   }
 
-	/**
+  /**
    * @param int $id
    * @return bool
    */
@@ -110,72 +110,72 @@ class Model {
   }
 
 
-	public function defineColumn(string $columnName) {
-		$this->tableColumns[$columnName] = [];
+  public function defineColumn(string $columnName) {
+    $this->tableColumns[$columnName] = [];
 
-		return $this;
-	}
+    return $this;
+  }
 
-	public function type(string $columnType) {
-		$this->tableColumns[key(array_slice($this->tableColumns, -1))]['type'] = $columnType;
+  public function type(string $columnType) {
+    $this->tableColumns[key(array_slice($this->tableColumns, -1))]['type'] = $columnType;
 
-		return $this;
-	}
+    return $this;
+  }
 
-	public function size(string $columnSize) {
-		$this->tableColumns[key(array_slice($this->tableColumns, -1))]['size'] = $columnSize;
+  public function size(string $columnSize) {
+    $this->tableColumns[key(array_slice($this->tableColumns, -1))]['size'] = $columnSize;
 
-		return $this;
-	}
+    return $this;
+  }
 
-	public function default($default) {
-		$this->tableColumns[key(array_slice($this->tableColumns, -1))]['default'] = $default;
+  public function default($default) {
+    $this->tableColumns[key(array_slice($this->tableColumns, -1))]['default'] = $default;
 
-		return $this;
-	}
+    return $this;
+  }
 
-	public function null(bool $null = true) {
-		$this->tableColumns[key(array_slice($this->tableColumns, -1))]['null'] = $null === true 
-			? "NULL"
-			: "NOT NULL"
-		;
+  public function null(bool $null = true) {
+    $this->tableColumns[key(array_slice($this->tableColumns, -1))]['null'] = $null === true 
+      ? "NULL"
+      : "NOT NULL"
+    ;
 
-		return $this;
-	}
+    return $this;
+  }
 
-	public function initTable() {
-		\DB::query("DROP TABLE IF EXISTS `{$this->tableName}`");
+  public function initTable() {
+    \DB::query("DROP TABLE IF EXISTS `{$this->tableName}`");
 
-		$query = "CREATE TABLE `{$this->tableName}` (id int AUTO_INCREMENT PRIMARY KEY";
+    $query = "CREATE TABLE `{$this->tableName}` (id int AUTO_INCREMENT PRIMARY KEY";
 
-		foreach ($this->tableColumns as $tableColumnName => $tableColumnParam) {
-			$size = isset($tableColumnParam['size']) 
-				? "({$tableColumnParam['size']})"
-				: ""
-			;
-			
-			$defaultValue = isset($tableColumnParam['default']) 
-				? "DEFAULT '{$tableColumnParam['default']}'"
-				: ""
-			;
+    foreach ($this->tableColumns as $tableColumnName => $tableColumnParam) {
+      $size = isset($tableColumnParam['size']) 
+        ? "({$tableColumnParam['size']})"
+        : ""
+      ;
+      
+      $defaultValue = isset($tableColumnParam['default']) 
+        ? "DEFAULT '{$tableColumnParam['default']}'"
+        : ""
+      ;
 
-			$null = isset($tableColumnParam['null']) 
-				? "{$tableColumnParam['null']}"
-				: ""
-			;
+      $null = isset($tableColumnParam['null']) 
+        ? "{$tableColumnParam['null']}"
+        : ""
+      ;
 
-			$query .= ",{$tableColumnName} {$tableColumnParam['type']}{$size} {$defaultValue} {$null}"; 
-		}
+      $query .= ",{$tableColumnName} {$tableColumnParam['type']}{$size} {$defaultValue} {$null}"; 
+    }
 
-		$query .= ");";
+    $query .= ");";
 
-		if (\DB::query($query) === false) exit('Oops some error occurred');
-		else {
-			echo '<span style=\'color:green\'>Successfully installed table: <b>' . $this->tableName . '</b></span></br>';
-			foreach ($this->tableColumns as $tableColumnName => $tableColumnParam) {
-				echo '<small>' . $tableColumnName . '</small></br>';
-			}
-			echo '</br>';
-		}
-	}
+    if (\DB::query($query) === false) exit('Oops some error occurred');
+    else {
+      echo '<span style=\'color:green\'>Successfully installed table: <b>' . $this->tableName . '</b></span></br>';
+      foreach ($this->tableColumns as $tableColumnName => $tableColumnParam) {
+        echo '<small>' . $tableColumnName . '</small></br>';
+      }
+      echo '</br>';
+    }
+  }
 }
